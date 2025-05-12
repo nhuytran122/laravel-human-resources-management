@@ -9,16 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class InterviewInvitationMail extends Mailable
+class InterviewInvitationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     private $interview;
-    private $is_update;
-    public function __construct($interview, $is_update = false)
+    private $isUpdate;
+    public function __construct($interview, $isUpdate = false)
     {
+        $this->isUpdate = $isUpdate;
         $this->interview = $interview;
-        $this->is_update = $is_update;
     }
     /**
      * Get the message envelope.
@@ -39,7 +39,8 @@ class InterviewInvitationMail extends Mailable
         return new Content(
             markdown: 'emails.interview.invitation',
             with: [
-                'interview' => $this->interview
+                'interview' => $this->interview,
+                'isUpdate' => $this->isUpdate
             ]
         );
     }

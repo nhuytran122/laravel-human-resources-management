@@ -11,11 +11,11 @@ use App\Models\LeaveBalance;
 use App\Models\LeaveType;
 use App\Models\Position;
 use App\Models\User;
-use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller implements HasMiddleware{

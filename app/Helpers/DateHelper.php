@@ -19,4 +19,18 @@ class DateHelper
             ], 422));
         }
     }
+
+    public static function toDateTimeFormat($dateTime, $inputFormat = ' H:i d/m/Y', $outputFormat = 'H:i Y-m-d')
+    {
+        try {
+            if ($dateTime == null) {
+                return;
+            }
+            return Carbon::createFromFormat($inputFormat, $dateTime)->format($outputFormat);
+        } catch (\Exception $e) {
+            abort(response()->json([
+                'message' => "Ngày giờ không đúng định dạng. Định dạng hợp lệ: {$inputFormat}"
+            ], 422));
+        }
+    }
 }

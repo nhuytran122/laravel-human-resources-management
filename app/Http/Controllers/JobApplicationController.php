@@ -110,7 +110,7 @@ class JobApplicationController extends Controller
                 ], 201)->header('Location', route('interviews.create', $job_application->id));  
             }
             return response()->json([
-                'message' => 'Đơn ứng tuyển đã được cập nhật trạng thái' . $request->status . ' thành công.',
+                'message' => 'Đơn ứng tuyển đã được cập nhật trạng thái ' . $request->status . ' thành công.',
                 'data' => $job_application,
             ], 200);
         });

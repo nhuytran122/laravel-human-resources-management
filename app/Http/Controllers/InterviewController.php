@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\DateHelper;
 use App\Mail\InterviewFailedMail;
-use App\Mail\InterviewInvitation;
 use App\Mail\InterviewInvitationMail;
 use App\Models\Interview;
 use App\Models\InterviewParticipant;
@@ -91,7 +90,7 @@ class InterviewController extends Controller
     public function update(Request $request, string $id)
     {
         $this->mergeDateFields($request);
-        $this->validateInterview($request);  
+        $this->validateInterview($request, true);  
         $interview = Interview::findOrFail($id);
 
         if($interview->result != 'pending'){
@@ -212,19 +211,25 @@ class InterviewController extends Controller
     private function mergeDateFields(Request $request)
     {
         $request->merge([
-            'interview_date' => DateHelper::toDateFormat($request->interview_date),
+            'interview_date' => DateHelper::toDateTimeFormat($request->interview_date),
         ]);
     }
     
-    private function validateInterview(Request $request)
+    private function validateInterview(Request $request, $isUpdate = false)
     {
-        $request->validate([
+        $rules = [
             'job_application_id' => 'required|exists:job_applications,id',
             'interviewer_ids' => 'required|array', 
             'interviewer_ids.*' => 'exists:employees,id',
             'interview_date' => 'required|date|after:now',
             'notes' => 'nullable|string',
             'result' => 'nullable|in:pass,fail,pending'
-        ]);
+        ];
+
+        if ($isUpdate) {
+            unset($rules['job_application_id']);
+        }
+
+        $request->validate($rules);
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class JobOfferMail extends Mailable
+class JobOfferMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     private $job_offer;
